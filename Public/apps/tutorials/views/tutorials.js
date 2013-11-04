@@ -4,8 +4,9 @@ define([
     'backbone',
     'text!../templates/tutorials.html',
     './tutorials_home',
-    './tutorial_reader'
-], function ($, _, Backbone, tutorials_tpl, TutorialsHomeView, TutorialReaderView) {
+    './tutorial_reader',
+    './tutorial_editor'
+], function ($, _, Backbone, tutorials_tpl, TutorialsHomeView, TutorialReaderView, TutorialEditorView) {
     var View = Backbone.View.extend({
         tagName: "div",
         className: "tutorials_app",
@@ -37,6 +38,12 @@ define([
             var tutorials_reader = new TutorialReaderView({ model: tutorial });
             base.$el.find(".tutorials_content").html(tutorials_reader.$el);
             tutorials_reader.init();
+        },
+        editTutorial: function (tutorial) {
+            var base = this;
+            var tutorial_editor = new TutorialEditorView({model: tutorial});
+            base.$el.find(".tutorials_content").html(tutorial_editor.$el);
+            tutorial_editor.init();
         },
         registerEvents: function () {
             var base = this;

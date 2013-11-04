@@ -1,1 +1,5 @@
-<a href="#Tutorials/show/<%= tutorial.get('id') %>"><span class="title"><%= tutorial.get('title') %></span></a>
+<div class="time"> (<%= moment(tutorial.getLastUpdate()).fromNow() %>)</div>
+<a href="#Tutorials/show/<%= tutorial.get('id') %>"><span class="title"><%= tutorial.get('title') %></span>
+<i class="fa fa-hand-o-right hidden"></i>
+
+</a>

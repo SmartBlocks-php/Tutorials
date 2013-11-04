@@ -2,8 +2,9 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!../templates/line_thumb.html'
-], function ($, _, Backbone, line_thumb_tpl) {
+    'text!../templates/line_thumb.html',
+    'moment'
+], function ($, _, Backbone, line_thumb_tpl, moment) {
     var View = Backbone.View.extend({
         tagName: "div",
         className: "tutorial_line_thumb",
@@ -21,7 +22,8 @@ define([
             var base = this;
 
             var template = _.template(line_thumb_tpl, {
-                tutorial: base.tutorial
+                tutorial: base.tutorial,
+                moment: moment
             });
             base.$el.html(template);
         },

@@ -25,18 +25,20 @@ define([
             });
             base.$el.html(template);
 
-            base.renderTutorials();
+            base.renderLatestTutorials();
 
         },
-        renderTutorials: function () {
+        renderLatestTutorials: function () {
             var base = this;
-            var tutorials = SmartBlocks.Blocks.Tutorials.Data.tutorials;
+            var tutorials = _.first(SmartBlocks.Blocks.Tutorials.Data.tutorials.sortBy(function (tutorial) {
+                return tutorial.getLastUpdate();
+            }), 10);
 
             base.$el.find(".latest_tutorials").html("");
-            for (var k in tutorials.models) {
-                var tutorial = tutorials.models[k];
+            for (var k in tutorials) {
+                var tutorial = tutorials[k];
                 var line_thumb = new LineThumb({model: tutorial});
-                base.$el.find(".latest_tutorials").append(line_thumb.$el);
+                base.$el.find(".latest_tutorials").prepend(line_thumb.$el);
                 line_thumb.init();
             }
         },
@@ -44,15 +46,15 @@ define([
             var base = this;
 
             SmartBlocks.Blocks.Tutorials.Data.tutorials.on('add', function () {
-                base.renderTutorials();
+                base.renderLatestTutorials();
             });
 
             SmartBlocks.Blocks.Tutorials.Data.tutorials.on('remove', function () {
-                base.renderTutorials();
+                base.renderLatestTutorials();
             });
 
             SmartBlocks.Blocks.Tutorials.Data.tutorials.on('change', function () {
-                base.renderTutorials();
+                base.renderLatestTutorials();
             });
         }
     });

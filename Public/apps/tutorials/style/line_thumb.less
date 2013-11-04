@@ -1,3 +1,31 @@
 .tutorial_line_thumb {
+  height: 20px;
+  line-height: 20px;
+  background: rgba(255,255,255,0.2);
+  margin-bottom: 3px;
+  padding: 5px;
+
+
+  a {
+    display: block;
+    float: left;
+    height: 100%;
+
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  &:hover {
+    background: rgba(255,255,255,1);
+    .hidden {
+     display: inline;
+    }
+  }
+
+  .time {
+    float: right;
+  }
 
 }
