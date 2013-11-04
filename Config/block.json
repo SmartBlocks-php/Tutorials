@@ -2,6 +2,14 @@
     "name": "Tutorials",
     "token": "Tutorials",
     "types": [
+        {
+            "model_name": "Tutorial",
+            "collection_name": "Tutorials",
+            "plural": "tutorials",
+            "ws_origin": "/Tutorials/Tutorials",
+            "model_location": "Tutorials/Models/Tutorial",
+            "collection_location": "Tutorials/Collections/Tutorials"
+        }
     ],
     "apps": [
         {
