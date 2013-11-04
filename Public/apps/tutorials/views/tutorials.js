@@ -9,6 +9,7 @@ define([
         className: "tutorials_app",
         initialize: function () {
             var base = this;
+            base.block = SmartBlocks.Blocks.Tutorials;
         },
         init: function () {
             var base = this;
@@ -24,6 +25,22 @@ define([
         },
         registerEvents: function () {
             var base = this;
+
+            base.$el.delegate('.createtuto', 'click', function () {
+                var tutorial = new base.block.Models.Tutorial({
+                    title: "New tuto",
+                    content: "My tutorial \n ============ \n **super**"
+                });
+                console.log("trying to save tutorial");
+                tutorial.save({}, {
+                    success: function () {
+                        console.log("saved tutorial");
+                        console.log(tutorial);
+                    }
+                });
+                base.block.Data.tutorials.add(tutorial);
+                console.log(base.block.Data.tutorials);
+            });
         }
     });
 

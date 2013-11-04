@@ -5,7 +5,7 @@ namespace Tutorials;
 /**
  * @Entity @Table(name="tutorials_tutorial")
  */
-class Tutorial extends Model
+class Tutorial extends \Model
 {
     /**
      * @Id @GeneratedValue(strategy="AUTO") @Column(type="integer")
