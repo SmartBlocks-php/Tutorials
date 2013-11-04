@@ -49,7 +49,7 @@ class Tutorial extends \Model
         $this->content = "";
         $this->created = new \DateTime();
         $this->last_update = new \DateTime();
-        $this->data = array();
+        $this->data = "";
     }
 
     public function getId()

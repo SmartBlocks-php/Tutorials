@@ -3,8 +3,9 @@ define([
     'underscore',
     'backbone',
     'text!../templates/tutorials.html',
-    './tutorials_home'
-], function ($, _, Backbone, tutorials_tpl, TutorialsHomeView) {
+    './tutorials_home',
+    './tutorial_reader'
+], function ($, _, Backbone, tutorials_tpl, TutorialsHomeView, TutorialReaderView) {
     var View = Backbone.View.extend({
         tagName: "div",
         className: "tutorials_app",
@@ -24,28 +25,34 @@ define([
             var template = _.template(tutorials_tpl, {});
             base.$el.html(template);
 
+        },
+        showHome: function () {
+            var base = this;
             var tutorials_home = new TutorialsHomeView();
             base.$el.find(".tutorials_content").html(tutorials_home.$el);
             tutorials_home.init();
         },
+        showTutorial: function (tutorial) {
+            var base = this;
+            var tutorials_reader = new TutorialReaderView({ model: tutorial });
+            base.$el.find(".tutorials_content").html(tutorials_reader.$el);
+            tutorials_reader.init();
+        },
         registerEvents: function () {
             var base = this;
 
-//            base.$el.delegate('.createtuto', 'click', function () {
-//                var tutorial = new base.block.Models.Tutorial({
-//                    title: "New tuto",
-//                    content: "My tutorial \n ============ \n **super**"
-//                });
-//                console.log("trying to save tutorial");
-//                tutorial.save({}, {
-//                    success: function () {
-//                        console.log("saved tutorial");
-//                        console.log(tutorial);
-//                    }
-//                });
-//                base.block.Data.tutorials.add(tutorial);
-//                console.log(base.block.Data.tutorials);
-//            });
+            base.$el.delegate('.createtuto', 'click', function () {
+                var editor = SmartBlocks.Blocks.Markdown.Main.showEditor();
+                editor.addAction("Save", function () {
+                    var tutorial = new SmartBlocks.Blocks.Tutorials.Models.Tutorial({
+                        title: "a tuto",
+                        content: editor.getMarkdown()
+                    });
+                    tutorial.save();
+                    SmartBlocks.Blocks.Tutorials.Data.tutorials.add(tutorial);
+                    editor.hide();
+                });
+            });
         }
     });
 

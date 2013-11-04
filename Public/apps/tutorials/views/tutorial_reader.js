@@ -2,11 +2,11 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!../templates/line_thumb.html'
-], function ($, _, Backbone, line_thumb_tpl) {
+    'text!../templates/tutorial_reader.html'
+], function ($, _, Backbone, tutorial_reader_tpl) {
     var View = Backbone.View.extend({
         tagName: "div",
-        className: "tutorial_line_thumb",
+        className: "tutorial_reader",
         initialize: function (obj) {
             var base = this;
             base.tutorial = obj.model;
@@ -20,7 +20,7 @@ define([
         render: function () {
             var base = this;
 
-            var template = _.template(line_thumb_tpl, {
+            var template = _.template(tutorial_reader_tpl, {
                 tutorial: base.tutorial
             });
             base.$el.html(template);
