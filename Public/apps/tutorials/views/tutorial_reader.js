@@ -27,6 +27,10 @@ define([
         },
         registerEvents: function () {
             var base = this;
+
+            base.tutorial.on("change", function () {
+                base.render();
+            });
         }
     });
 

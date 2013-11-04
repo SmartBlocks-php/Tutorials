@@ -1,6 +1,7 @@
 <?php
 
 namespace Tutorials;
+use ReflectionClass;
 
 /**
  * @Entity @Table(name="tutorials_tutorial")
@@ -153,6 +154,26 @@ class Tutorial extends \Model
         return json_decode($this->data, true);
     }
 
+    function save()
+    {
+        parent::save();
+        \NodeDiplomat::broadCastMessage(array(
+            "block" => "Tutorials",
+            "message" => "updated_tutorial",
+            "tutorial" => $this->toArray()
+        ));
+    }
+
+    function delete()
+    {
+        \NodeDiplomat::broadCastMessage(array(
+            "block" => "Tutorials",
+            "message" => "deleted_tutorial",
+            "tutorial" => $this->toArray()
+        ));
+
+        parent::delete();
+    }
 
 
     public function toArray()

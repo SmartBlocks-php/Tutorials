@@ -41,9 +41,13 @@ define([
         },
         editTutorial: function (tutorial) {
             var base = this;
-            var tutorial_editor = new TutorialEditorView({model: tutorial});
-            base.$el.find(".tutorials_content").html(tutorial_editor.$el);
-            tutorial_editor.init();
+            if (SmartBlocks.current_user.get('id') == tutorial.getCreator().get('id') || true) {
+                var tutorial_editor = new TutorialEditorView({model: tutorial});
+                base.$el.find(".tutorials_content").html(tutorial_editor.$el);
+                tutorial_editor.init();
+            } else {
+                alert("You are not authorized to edit this tutorial");
+            }
         },
         registerEvents: function () {
             var base = this;

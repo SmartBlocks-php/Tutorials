@@ -6,12 +6,29 @@ define([
 ], function ($, _, Backbone, TutorialsView) {
     var main = {
         init: function () {
-//            var editor = SmartBlocks.Blocks.Markdown.Main.showEditor();
-//            editor.addAction("Save", function () {
-//                console.log(editor.getHtml());
-//                editor.hide();
-//            });
-
+            SmartBlocks.events.on("ws_notification", function (message) {
+                if (message.block == "Tutorials") {
+                    if (message.message == "updated_tutorial") {
+                        var id = message.tutorial.id;
+                        var tutorial = SmartBlocks.Blocks.Tutorials.Data.tutorials.get(id);
+                        if (tutorial) {
+                            tutorial.fetch();
+                        } else {
+                            tutorial = new SmartBlocks.Blocks.Tutorials.Model.Tutorial();
+                            tutorial.set('id', id);
+                            tutorial.fetch();
+                            SmartBlocks.Blocks.Tutorials.Data.tutorials.add(tutorial);
+                        }
+                    }
+                    if (message.message == "deleted_tutorial") {
+                        var id = message.tutorial.id;
+                        var tutorial = SmartBlocks.Blocks.Tutorials.Data.tutorials.get(id);
+                        if (tutorial) {
+                            SmartBlocks.Blocks.Tutorials.Data.tutorials.remove(tutorial);
+                        }
+                    }
+                }
+            });
 
         },
         launch_tutorials : function (app) {

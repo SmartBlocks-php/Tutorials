@@ -36,13 +36,21 @@ define([
                 base.editor.setTitle(base.tutorial.get('title') + " * (syncing)");
                 base.tutorial.save({}, {
                     success: function () {
-                        base.editor.setTitle(base.tutorial.get('title') + '<i class="fa fa-check"></i>');
+                        base.editor.setTitle(base.tutorial.get('title') + ' <i class="fa fa-check"></i>');
+                    },
+                    error: function(model, response) {
+                        base.editor.setTitle(base.tutorial.get('title') + ' <i class="fa fa-ban"></i>');
+                        base.tutorial.fetch();
                     }
                 });
             });
         },
         registerEvents: function () {
             var base = this;
+            base.tutorial.on("change", function () {
+
+                base.editor.setContent(base.tutorial.get('content'));
+            });
         }
     });
 

@@ -40,6 +40,7 @@ class TutorialsBusiness
      */
     public static function addOrUpdate($data)
     {
+
         if (isset($data["id"]))
         {
             $tutorial = Tutorial::find($data["id"]);
@@ -98,10 +99,16 @@ class TutorialsBusiness
         $tutorial->setData($data_array);
 
 
-        $tutorial->save();
+        if ($tutorial->getCreator() == \User::current_user())
+        {
+            $tutorial->save();
 
-        return $tutorial;
-
+            return $tutorial;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /**
