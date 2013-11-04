@@ -1,8 +1,9 @@
 define([
     'jquery',
     'underscore',
-    'backbone'
-], function ($, _, Backbone) {
+    'backbone',
+    './apps/tutorials/views/tutorials'
+], function ($, _, Backbone, TutorialsView) {
     var main = {
         init: function () {
             var editor = SmartBlocks.Blocks.Markdown.Main.showEditor();
@@ -10,6 +11,11 @@ define([
                 console.log(editor.getHtml());
                 editor.hide();
             });
+        },
+        launch_tutorials : function () {
+            var tutorials_view = new TutorialsView();
+            SmartBlocks.Methods.render(tutorials_view.$el);
+            tutorials_view.init();
         }
     };
 

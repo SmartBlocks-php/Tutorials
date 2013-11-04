@@ -4,5 +4,11 @@
     "types": [
     ],
     "apps": [
+        {
+            "name" : "Tutorials",
+            "token" : "Tutorials",
+            "block_token": "Tutorials",
+            "entry_point": "launch_tutorials"
+        }
     ]
 }
