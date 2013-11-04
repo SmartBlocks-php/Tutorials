@@ -37,6 +37,11 @@ class Tutorial extends \Model
      */
     private $last_update;
 
+    /**
+     * @Column(type="text")
+     */
+    private $data;
+
     public function __construct()
     {
         $this->creator = \User::current_user();
@@ -44,6 +49,7 @@ class Tutorial extends \Model
         $this->content = "";
         $this->created = new \DateTime();
         $this->last_update = new \DateTime();
+        $this->data = array();
     }
 
     public function getId()
@@ -129,6 +135,22 @@ class Tutorial extends \Model
     public function getCreated()
     {
         return $this->created;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setData($data)
+    {
+        $this->data = json_encode($data);
+    }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return json_decode($this->data, true);
     }
 
 
