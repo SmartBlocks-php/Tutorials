@@ -31,14 +31,14 @@ define([
         renderLatestTutorials: function () {
             var base = this;
             var tutorials = _.first(SmartBlocks.Blocks.Tutorials.Data.tutorials.sortBy(function (tutorial) {
-                return tutorial.getLastUpdate();
+                return - tutorial.getLastUpdate().getTime();
             }), 10);
 
             base.$el.find(".latest_tutorials").html("");
             for (var k in tutorials) {
                 var tutorial = tutorials[k];
                 var line_thumb = new LineThumb({model: tutorial});
-                base.$el.find(".latest_tutorials").prepend(line_thumb.$el);
+                base.$el.find(".latest_tutorials").append(line_thumb.$el);
                 line_thumb.init();
             }
         },

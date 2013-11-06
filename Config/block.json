@@ -18,5 +18,11 @@
             "block_token": "Tutorials",
             "entry_point": "launch_tutorials"
         }
+    ],
+    "rights": [
+        {
+            "name" : "tutorial_writer",
+            "description": "Lets users write tutorials."
+        }
     ]
 }

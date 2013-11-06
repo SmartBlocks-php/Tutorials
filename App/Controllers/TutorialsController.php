@@ -41,7 +41,10 @@ class TutorialsController extends \Controller
     {
         $data = $this->getRequestData();
 
-        $tutorial = TutorialsBusiness::addOrUpdate($data);
+        if (\User::current_user()->hasRight("tutorial_writer"))
+        {
+            $tutorial = TutorialsBusiness::addOrUpdate($data);
+        }
 
         $this->return_json($tutorial->toArray());
     }
@@ -71,7 +74,7 @@ class TutorialsController extends \Controller
         $tutorial = TutorialsBusiness::getTutorial($params["id"]);
         if (is_object($tutorial) && $tutorial->getCreator() == \User::current_user())
         {
-           TutorialsBusiness::deleteTutorial($tutorial);
+            TutorialsBusiness::deleteTutorial($tutorial);
         }
         else
         {

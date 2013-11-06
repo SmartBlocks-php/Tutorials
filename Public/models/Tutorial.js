@@ -7,15 +7,27 @@ define([
 
         },
         urlRoot: "/Tutorials/Tutorials",
+        init: function () {
+
+        },
         getCreated: function () {
             var base = this
-            var date = new Date(base.get('created').date);
-            return date;
+
+            if (base.get('created')) {
+                var date = new Date(base.get('created').date);
+                return date;
+            } else {
+                return new Date();
+            }
         },
         getLastUpdate: function () {
             var base = this
-            var date = new Date(base.get('last_update').date);
-            return date;
+            if (base.get('last_update')) {
+                var date = new Date(base.get('last_update').date);
+                return date;
+            } else {
+                return new Date();
+            }
         },
         getCreator: function () {
             var base = this;

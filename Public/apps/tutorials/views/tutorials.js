@@ -41,7 +41,20 @@ define([
         },
         editTutorial: function (tutorial) {
             var base = this;
-            if (SmartBlocks.current_user.get('id') == tutorial.getCreator().get('id') || true) {
+            if (SmartBlocks.current_user.get('id') == tutorial.getCreator().get('id')) {
+                var tutorial_editor = new TutorialEditorView({model: tutorial});
+                base.$el.find(".tutorials_content").html(tutorial_editor.$el);
+                tutorial_editor.init();
+            } else {
+                alert("You are not authorized to edit this tutorial");
+            }
+        },
+        newTutorial: function () {
+            var base = this;
+            var tutorial = new SmartBlocks.Blocks.Tutorials.Models.Tutorial({
+                title: "New tutorial"
+            });
+            if (SmartBlocks.current_user.hasRight("tutorial_writer")) {
                 var tutorial_editor = new TutorialEditorView({model: tutorial});
                 base.$el.find(".tutorials_content").html(tutorial_editor.$el);
                 tutorial_editor.init();
@@ -53,16 +66,7 @@ define([
             var base = this;
 
             base.$el.delegate('.createtuto', 'click', function () {
-                var editor = SmartBlocks.Blocks.Markdown.Main.showEditor();
-                editor.addAction("Save", function () {
-                    var tutorial = new SmartBlocks.Blocks.Tutorials.Models.Tutorial({
-                        title: "a tuto",
-                        content: editor.getMarkdown()
-                    });
-                    tutorial.save();
-                    SmartBlocks.Blocks.Tutorials.Data.tutorials.add(tutorial);
-                    editor.hide();
-                });
+                window.location = "#Tutorials/new"
             });
         }
     });
