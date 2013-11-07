@@ -78,6 +78,16 @@ class TutorialsBusiness
             unset($data["last_update"]);
         }
 
+        if (isset($data["category"]) && is_array($data["category"]))
+        {
+            $category = CategoriesBusiness::getCategory($data["category"]["id"]);
+            if (is_object($category))
+            {
+                $tutorial->setCategory($category);
+            }
+            unset($data["category"]);
+        }
+
         $tuto_data = $data;
         $data_array = $tutorial->getData();
 
@@ -92,7 +102,8 @@ class TutorialsBusiness
 
         foreach ($data_array as $key => $d)
         {
-            if (!isset($event_data[$key])) {
+            if (!isset($event_data[$key]))
+            {
                 unset($data_array[$key]);
             }
         }

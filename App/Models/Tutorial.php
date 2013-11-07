@@ -202,6 +202,7 @@ class Tutorial extends \Model
             "id" => $this->id,
             "title" => $this->title,
             "content" => $this->content,
+            "category" => $this->category != null ? $this->category->toArray() : null,
             "creator" => $this->creator->toArray(),
             "created" => $this->created,
             "last_update" => $this->last_update

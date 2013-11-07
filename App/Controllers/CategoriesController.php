@@ -43,9 +43,14 @@ class CategoriesController extends \Controller
         if (\User::current_user()->hasRight("tutorial_writer"))
         {
             $category = CategoriesBusiness::addOrUpdate($data);
+            $this->return_json($category->toArray());
+        }
+        else
+        {
+            $this->json_error("You don't have the right to create a category");
         }
 
-        $this->return_json($category->toArray());
+
     }
 
     public function update($params = array())

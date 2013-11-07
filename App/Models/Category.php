@@ -38,6 +38,12 @@ class Category extends \Model {
      */
     private $created;
 
+    public function __construct()
+    {
+        $this->creator = \User::current_user();
+        $this->created = new \DateTime();
+    }
+
     /**
      * @param \User $creator
      */
@@ -111,6 +117,16 @@ class Category extends \Model {
     }
 
 
+    public function toArray()
+    {
+        $array = array(
+            "id" => $this->id,
+            "name" => $this->name,
+            "created" => $this->created,
+            "creator" => $this->creator->toArray()
+        );
 
+        return $array;
+    }
 
 }

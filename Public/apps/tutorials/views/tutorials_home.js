@@ -3,14 +3,20 @@ define([
     'underscore',
     'backbone',
     'text!../templates/tutorials_home.html',
-    './line_thumb'
-], function ($, _, Backbone, tutorials_home_tpl, LineThumb) {
+    './line_thumb',
+    './category_thumb'
+], function ($, _, Backbone, tutorials_home_tpl, LineThumb, CategoryThumb) {
+    /**
+     * TutorialsHomeView module.
+     *
+     * @type {*|extend|extend|void|Object|extend}
+     */
     var View = Backbone.View.extend({
         tagName: "div",
         className: "tutorials_home",
         initialize: function () {
             var base = this;
-
+            base.events = $.extend({}, Backbone.Events);
         },
         init: function () {
             var base = this;
@@ -18,6 +24,11 @@ define([
             base.render();
             base.registerEvents();
         },
+        /**
+         * Main render method for TutorialsHomeViews
+         * @attach{Tutorials.Views.TutorialHomeView, render}
+         * @internal
+         */
         render: function () {
             var base = this;
 
@@ -28,10 +39,16 @@ define([
             base.renderLatestTutorials();
 
         },
+        /**
+         * Renders list of latest tutorials
+         *
+         * @attach{Tutorials.Views.TutorialHomeView, renderLatestTutorials}
+         * @internal
+         */
         renderLatestTutorials: function () {
             var base = this;
             var tutorials = _.first(SmartBlocks.Blocks.Tutorials.Data.tutorials.sortBy(function (tutorial) {
-                return - tutorial.getLastUpdate().getTime();
+                return -tutorial.getLastUpdate().getTime();
             }), 10);
 
             base.$el.find(".latest_tutorials").html("");
@@ -43,13 +60,24 @@ define([
             }
 
             base.renderSearchResults();
+            base.renderCategories();
         },
+        /**
+         * Renders a list of result tutorials from search (input + selected categories)
+         *
+         * @attach{Tutorials.Views.TutorialHomeView, renderSearchResults}
+         * @internal
+         */
         renderSearchResults: function () {
             var base = this;
             var search_query = base.$el.find(".search_input").val();
 
             var all_tutorials = SmartBlocks.Blocks.Tutorials.Data.tutorials.filter(function (tutorial) {
-                return search_query == "" || tutorial.get("title").indexOf(search_query) !== -1;
+                return (search_query == "" || tutorial.get("title").indexOf(search_query) !== -1) &&
+                    (!base.selected_category ||
+                        (tutorial.get('category') &&
+                            base.selected_category.get('id')
+                                == tutorial.getCategory().get('id')));
             });
 
 
@@ -61,6 +89,53 @@ define([
                 line_thumb.init();
             }
         },
+        /**
+         * Renders a list of categories (see /models).
+         *
+         * Listens to click events on rendered category thumbnails,
+         * allowing to select a category in the view.
+         *
+         * Stores the selected category in View.selected_Category
+         *
+         * @attach{Tutorials.Views.TutorialHomeView, renderCategories}
+         * @internal
+         */
+        renderCategories: function () {
+            var base = this;
+
+            var categories = SmartBlocks.Blocks.Tutorials.Data.categories.models;
+
+            var categories_container = base.$el.find(".categories_list");
+            categories_container.html("");
+            for (var k in categories) {
+                (function (category) {
+                    var category_thumb = new CategoryThumb({model: category});
+                    categories_container.append(category_thumb.$el);
+                    category_thumb.init();
+                    category_thumb.$el.click(function () {
+                        if (!base.selected_category || base.selected_category.get('id') != category.get('id')) {
+                            base.selected_category = category;
+                            categories_container.find(".selected").removeClass("selected");
+                            category_thumb.$el.addClass("selected");
+                        } else {
+                            base.selected_category = undefined;
+                            categories_container.find(".selected").removeClass("selected");
+                        }
+                        base.events.trigger("selected_category_change");
+                    });
+                })(categories[k]);
+            }
+        },
+        /**
+         * Register events for the TutorialsHomeView
+         *
+         * Tutorials.Data.tutorials events (add, remove, change)
+         * Search input change
+         * TutorialsHomeView.events.selected_category_change
+         *
+         * @attach{Tutorials.Views.TutorialsHomeView, registerEvents}
+         * @internal
+         */
         registerEvents: function () {
             var base = this;
 
@@ -83,6 +158,12 @@ define([
                     base.renderSearchResults();
                 }, 200);
             });
+
+
+            base.events.on('selected_category_change', function () {
+                base.renderSearchResults();
+            });
+
         }
     });
 
