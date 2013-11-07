@@ -1,12 +1,6 @@
 <div class="tuto_reader_header">
     <a href="#Tutorials" class="pure-button"><i class="fa fa-chevron-left"></i> Back to Tutorials</a>
 
-    <% if (SmartBlocks.current_user.get('connected') && tutorial.getCreator().get('id') == SmartBlocks.current_user.get('id')) { %>
-    <div class="actions">
-        <a href="#Tutorials/edit/<%= tutorial.get('id') %>" class="pure-button"><i class="fa fa-pencil"></i> Edit</a>
-        <a href="#Tutorials" class="pure-button"><i class="fa fa-"></i> Delete</a>
-    </div>
-    <% } %>
 </div>
 <div class="tutorial_content markdown_exported">
     <%= SmartBlocks.Blocks.Markdown.Main.convertToHTML(tutorial.get('content')) %>

@@ -44,13 +44,13 @@ define([
                     var tutorial = SmartBlocks.Blocks.Tutorials.Data.tutorials.get(id);
                     tutorials_view.showTutorial(tutorial);
                 },
-                "edit/:id" : function (id) {
-                    var tutorial = SmartBlocks.Blocks.Tutorials.Data.tutorials.get(id);
-                    tutorials_view.editTutorial(tutorial);
-                },
-                "new" : function () {
-                    tutorials_view.newTutorial();
-                }
+//                "edit/:id" : function (id) {
+//                    var tutorial = SmartBlocks.Blocks.Tutorials.Data.tutorials.get(id);
+//                    tutorials_view.editTutorial(tutorial);
+//                },
+//                "new" : function () {
+//                    tutorials_view.newTutorial();
+//                }
             });
         }
     };

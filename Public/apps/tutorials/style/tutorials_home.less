@@ -1,10 +1,34 @@
 .tutorials_home {
   @import "featured_thumb";
   @import "line_thumb";
-  .latest_tutorials {
+  width: 1000px;
+  margin:auto;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+
+  height: ~"calc(100% - 200px)";
+  background: wheat;
+  padding: 10px;
+
+
+  > .pure-g-r {
+    height: 100%;
+    > div {
+      height: 100%;
+    }
+  }
+
+  > .pure-g-r > div > div {
+    padding: 20px;
     margin: 5px;
-    padding: 10px;
     background: rgba(255,255,255,0.5);
-    min-width: 300px;
+    height: ~"calc(100% - 50px);";
+  }
+
+  .search_input {
+    width: 300px;
+    border: none;
+    padding: 5px;
   }
 }

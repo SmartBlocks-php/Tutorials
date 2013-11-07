@@ -1,6 +1,6 @@
 define([
     'jquery',
-    'underscore',
+    '../../../../../.',
     'backbone',
     'text!../templates/tutorial_editor.html'
 ], function ($, _, Backbone, tutorial_editor_tpl) {
