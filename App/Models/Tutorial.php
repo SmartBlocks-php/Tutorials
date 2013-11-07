@@ -1,7 +1,6 @@
 <?php
 
 namespace Tutorials;
-use ReflectionClass;
 
 /**
  * @Entity @Table(name="tutorials_tutorial")
@@ -42,6 +41,11 @@ class Tutorial extends \Model
      * @Column(type="text")
      */
     private $data;
+
+    /**
+     * @ManyToOne(targetEntity="\Tutorials\Category")
+     */
+    private $category;
 
     public function __construct()
     {
@@ -136,6 +140,22 @@ class Tutorial extends \Model
     public function getCreated()
     {
         return $this->created;
+    }
+
+    /**
+     * @param \Tutorials\Category $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return \Tutorials\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 
     /**
