@@ -2,8 +2,9 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    './apps/tutorials/views/tutorials'
-], function ($, _, Backbone, TutorialsView) {
+    './apps/tutorials/views/tutorials',
+    './apps/tutorials_editor/views/main'
+], function ($, _, Backbone, TutorialsView, TutorialsEditorView) {
     var main = {
         init: function () {
             SmartBlocks.events.on("ws_notification", function (message) {
@@ -51,6 +52,34 @@ define([
 //                "new" : function () {
 //                    tutorials_view.newTutorial();
 //                }
+            });
+        },
+        launch_tutorials_editor: function (app) {
+            var tutorials_editor_view = new TutorialsEditorView();
+            SmartBlocks.Methods.render(tutorials_editor_view.$el);
+            tutorials_editor_view.init();
+
+            app.initRoutes({
+                "": function () {
+                    tutorials_editor_view.showListing();
+                },
+                "edit/:id": function (id) {
+                    var tutorial = SmartBlocks.Blocks.Tutorials.Data.tutorials.get(id);
+                    if (tutorial) {
+                        tutorials_editor_view.showEditor(tutorial);
+                    }
+                },
+                "new" : function () {
+                    var base = this;
+                    var tutorial = new SmartBlocks.Blocks.Tutorials.Models.Tutorial({
+                        title: "New tutorial"
+                    });
+                    if (SmartBlocks.current_user.hasRight("tutorial_writer")) {
+                        tutorials_editor_view.showEditor(tutorial);
+                    } else {
+                        alert("You are not authorized to edit this tutorial");
+                    }
+                }
             });
         }
     };
