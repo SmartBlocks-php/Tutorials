@@ -10,6 +10,7 @@ define([
         initialize: function (obj) {
             var base = this;
             base.tutorial = obj.model;
+            base.events = $.extend({}, Backbone.Events);
         },
         init: function () {
             var base = this;
@@ -31,9 +32,9 @@ define([
 
             base.editor.setContent(base.tutorial.get('content'));
 
-            base.editor.addAction('Save', function () {
-                base.save();
-            });
+//            base.editor.addAction('Save', function () {
+//                base.save();
+//            });
             if (base.editor.hasChanged() || !base.tutorial.get('id')) {
                 base.$el.find(".status").html('<i class="fa fa-ellipsis-horizontal"></i> Changed');
             } else {
@@ -45,6 +46,7 @@ define([
             base.tutorial.set('content', base.editor.getMarkdown());
             base.tutorial.set('title', base.$el.find(".title_input").val());
             base.tutorial.set('featured', base.$el.find(".featured").is(":checked"));
+            base.tutorial.set('description', base.$el.find(".description_input").val());
             SmartBlocks.Blocks.Tutorials.Data.tutorials.add(base.tutorial);
             base.$el.find(".status").html('<i class="fa fa-repeat fa-spin"></i> Saving');
             base.tutorial.save({}, {
@@ -64,7 +66,20 @@ define([
             });
 
             base.editor.events.on('changed', function () {
-                if (base.editor.hasChanged()) {
+                if (base.editor.hasChanged() ||
+                    (base.$el.find(".description_input") != "" && base.$el.find(".description_input") != base.tutorial.get('description')) ||
+                    base.$el.find(".featured").is(":checked") != base.tutorial.get('featured')
+                    ) {
+                    base.$el.find(".status").html('<i class="fa fa-ellipsis-horizontal"></i> Changed');
+                } else {
+                    base.$el.find(".status").html('<i class="fa fa-check"></i> Synced');
+                }
+            });
+            base.events.on('changed', function () {
+                if (base.editor.hasChanged() ||
+                    (base.$el.find(".description_input") != "" && base.$el.find(".description_input") != base.tutorial.get('description')) ||
+                    base.$el.find(".featured").is(":checked") != base.tutorial.get('featured')
+                    ) {
                     base.$el.find(".status").html('<i class="fa fa-ellipsis-horizontal"></i> Changed');
                 } else {
                     base.$el.find(".status").html('<i class="fa fa-check"></i> Synced');
@@ -77,11 +92,22 @@ define([
                 base.save();
             });
 
+            base.$el.delegate(".save_button", 'click', function () {
+                base.save();
+            });
+
             base.$el.delegate('.delete_tutorial_button', 'click', function () {
                 if (confirm('Are you sure you want to delete this tutorial ?')) {
                     base.tutorial.destroy();
                     window.location = "#TutorialsEditor";
                 }
+            });
+
+            base.$el.delegate('input, textarea', 'change', function () {
+                base.events.trigger('changed');
+            });
+            base.$el.delegate('input, textarea', 'keyup', function () {
+                base.events.trigger('changed');
             });
         }
     });
