@@ -38,29 +38,6 @@ define([
             base.$el.find(".tutorials_content").html(tutorials_reader.$el);
             tutorials_reader.init();
         },
-//        editTutorial: function (tutorial) {
-//            var base = this;
-//            if (SmartBlocks.current_user.get('id') == tutorial.getCreator().get('id')) {
-//                var tutorial_editor = new TutorialEditorView({model: tutorial});
-//                base.$el.find(".tutorials_content").html(tutorial_editor.$el);
-//                tutorial_editor.init();
-//            } else {
-//                alert("You are not authorized to edit this tutorial");
-//            }
-//        },
-//        newTutorial: function () {
-//            var base = this;
-//            var tutorial = new SmartBlocks.Blocks.Tutorials.Models.Tutorial({
-//                title: "New tutorial"
-//            });
-//            if (SmartBlocks.current_user.hasRight("tutorial_writer")) {
-//                var tutorial_editor = new TutorialEditorView({model: tutorial});
-//                base.$el.find(".tutorials_content").html(tutorial_editor.$el);
-//                tutorial_editor.init();
-//            } else {
-//                alert("You are not authorized to edit this tutorial");
-//            }
-//        },
         registerEvents: function () {
             var base = this;
 
