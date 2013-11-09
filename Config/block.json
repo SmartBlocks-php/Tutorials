@@ -2,7 +2,41 @@
     "name": "Tutorials",
     "token": "Tutorials",
     "types": [
+        {
+            "model_name": "Tutorial",
+            "collection_name": "Tutorials",
+            "plural": "tutorials",
+            "ws_origin": "/Tutorials/Tutorials",
+            "model_location": "Tutorials/Models/Tutorial",
+            "collection_location": "Tutorials/Collections/Tutorials"
+        },
+        {
+            "model_name": "Category",
+            "collection_name": "Categories",
+            "plural": "categories",
+            "ws_origin": "/Tutorials/Categories",
+            "model_location": "Tutorials/Models/Category",
+            "collection_location": "Tutorials/Collections/Categories"
+        }
     ],
     "apps": [
+        {
+            "name" : "Tutorials",
+            "token" : "Tutorials",
+            "block_token": "Tutorials",
+            "entry_point": "launch_tutorials"
+        },
+        {
+            "name" : "TutorialsEditor",
+            "token" : "TutorialsEditor",
+            "block_token": "Tutorials",
+            "entry_point": "launch_tutorials_editor"
+        }
+    ],
+    "rights": [
+        {
+            "name" : "tutorial_writer",
+            "description": "Lets users write tutorials."
+        }
     ]
 }

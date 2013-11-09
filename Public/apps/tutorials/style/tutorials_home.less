@@ -1,0 +1,54 @@
+.tutorials_home {
+  @import "featured_thumb";
+
+  @import "category_thumb";
+  width: 1000px;
+  margin:auto;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+
+  height: ~"calc(100% - 200px)";
+  padding: 10px;
+
+
+  > .pure-g-r {
+    height: 100%;
+    > div {
+      height: 50%;
+    }
+  }
+
+  > .pure-g-r > div > div {
+    padding: 20px;
+    margin: 5px;
+    background: rgba(255,255,255,0.5);
+    height: 100%;
+  }
+
+  .search_input_container{
+    width: 300px;
+//    border: none;
+//    padding: 5px;
+    float: right;
+  }
+
+  .categories_list {
+    padding-left: 0;
+  }
+
+  .main_pane {
+    h1 {
+      margin: 0px;
+    }
+    ul {
+      width: -webkit-fit-content;
+      width: -moz-fit-content;
+      width: fit-content;
+      margin: auto;
+      li {
+        float:left;
+      }
+    }
+  }
+}
