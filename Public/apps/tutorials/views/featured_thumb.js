@@ -1,13 +1,15 @@
 define([
     'jquery',
     'underscore',
-    'backbone'
-], function ($, _, Backbone) {
+    'backbone',
+    'text!../templates/featured_thumb.html'
+], function ($, _, Backbone, featured_thumb_tpl) {
     var View = Backbone.View.extend({
         tagName: "div",
         className: "featured_tutorial_thumb",
-        initialize: function () {
+        initialize: function (obj) {
             var base = this;
+            base.tutorial = obj.model;
         },
         init: function () {
             var base = this;
@@ -18,8 +20,10 @@ define([
         render: function () {
             var base = this;
 
-            //var template = _.template(SomeTemplate, {});
-            //base.$el.html(template);
+            var template = _.template(featured_thumb_tpl, {
+                tutorial: base.tutorial
+            });
+            base.$el.html(template);
         },
         registerEvents: function () {
             var base = this;

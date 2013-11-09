@@ -44,6 +44,7 @@ define([
             var base = this;
             base.tutorial.set('content', base.editor.getMarkdown());
             base.tutorial.set('title', base.$el.find(".title_input").val());
+            base.tutorial.set('featured', base.$el.find(".featured").is(":checked"));
             SmartBlocks.Blocks.Tutorials.Data.tutorials.add(base.tutorial);
             base.$el.find(".status").html('<i class="fa fa-repeat fa-spin"></i> Saving');
             base.tutorial.save({}, {
@@ -74,6 +75,13 @@ define([
                 17, 83
             ], function () {
                 base.save();
+            });
+
+            base.$el.delegate('.delete_tutorial_button', 'click', function () {
+                if (confirm('Are you sure you want to delete this tutorial ?')) {
+                    base.tutorial.destroy();
+                    window.location = "#TutorialsEditor";
+                }
             });
         }
     });

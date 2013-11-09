@@ -29,6 +29,19 @@ define([
         },
         registerEvents: function () {
             var base = this;
+        },
+        /**
+         * Sets the action that shall be executed when a user clicks on this line thumbnail.
+         * @param callback takes a tutorial as argument
+         */
+        onClick: function (callback, text) {
+            var base = this;
+            base.$el.click(function () {
+                if (callback) {
+                    callback(base.tutorial);
+                }
+            });
+            base.$el.find('.click_text').html(text);
         }
     });
 

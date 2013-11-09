@@ -67,7 +67,7 @@ class TutorialsBusiness
         }
 
         $tutorial->setLastUpdate(new \DateTime());
-
+        unset($data["creator"]);
         if (isset($data["created"]))
         {
             unset($data["created"]);
@@ -99,10 +99,9 @@ class TutorialsBusiness
             }
 
         }
-
         foreach ($data_array as $key => $d)
         {
-            if (!isset($event_data[$key]))
+            if (!isset($tuto_data[$key]))
             {
                 unset($data_array[$key]);
             }

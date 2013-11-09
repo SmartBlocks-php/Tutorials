@@ -54,7 +54,7 @@ class Tutorial extends \Model
         $this->content = "";
         $this->created = new \DateTime();
         $this->last_update = new \DateTime();
-        $this->data = "";
+        $this->setData(array());
     }
 
     public function getId()
@@ -207,6 +207,14 @@ class Tutorial extends \Model
             "created" => $this->created,
             "last_update" => $this->last_update
         );
+        $data = $this->getData();
+        if (is_array($data))
+        {
+            foreach ($data as $key => $value)
+            {
+                $array[$key] = $value;
+            }
+        }
 
         return $array;
     }

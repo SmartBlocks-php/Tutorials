@@ -1,5 +1,18 @@
-<img src="http://placehold.it/200x200" />
-<strong class="title">
-</strong>
-<div class="description">
+<div class="fth_image_container">
+    <% if (tutorial.get('image')) {%>
+    <img src="<%= tutorial.get('image') %>"/>
+    <% } else {%>
+    <img src="http://placehold.it/100x100"/>
+    <% }%>
+</div>
+<div>
+    <strong class="title">
+        <%= tutorial.get('title') %>
+    </strong>
+</div>
+
+<div>
+    <div class="description">
+        <%= tutorial.get('description') %>
+    </div>
 </div>

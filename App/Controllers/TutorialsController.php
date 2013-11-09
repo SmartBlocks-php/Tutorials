@@ -75,6 +75,7 @@ class TutorialsController extends \Controller
         if (is_object($tutorial) && $tutorial->getCreator() == \User::current_user())
         {
             TutorialsBusiness::deleteTutorial($tutorial);
+            $this->json_message("Successfully deleted tutorial");
         }
         else
         {

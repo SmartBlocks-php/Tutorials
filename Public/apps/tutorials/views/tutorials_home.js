@@ -4,8 +4,9 @@ define([
     'backbone',
     'text!../templates/tutorials_home.html',
     './line_thumb',
-    './category_thumb'
-], function ($, _, Backbone, tutorials_home_tpl, LineThumb, CategoryThumb) {
+    './category_thumb',
+    './featured_thumb'
+], function ($, _, Backbone, tutorials_home_tpl, LineThumb, CategoryThumb, FeaturedThumb) {
     /**
      * TutorialsHomeView module.
      *
@@ -37,7 +38,23 @@ define([
             base.$el.html(template);
 
             base.renderLatestTutorials();
+            base.renderFeatured();
 
+        },
+        renderFeatured: function () {
+            var base = this;
+
+            var featured = _.first(SmartBlocks.Blocks.Tutorials.Data.tutorials.filter(function (tutorial) {
+                return tutorial.get("featured");
+            }), 5);
+            base.$el.find(".featured_tutorials_list").html('');
+            for (var k in featured) {
+                var featured_thumb = new FeaturedThumb({ model: featured[k] });
+                var li = $(document.createElement('li'));
+                li.html(featured_thumb.$el);
+                base.$el.find(".featured_tutorials_list").append(li);
+                featured_thumb.init();
+            }
         },
         /**
          * Renders list of latest tutorials
@@ -49,7 +66,7 @@ define([
             var base = this;
             var tutorials = _.first(SmartBlocks.Blocks.Tutorials.Data.tutorials.sortBy(function (tutorial) {
                 return -tutorial.getLastUpdate().getTime();
-            }), 10);
+            }), 9);
 
             base.$el.find(".latest_tutorials").html("");
             for (var k in tutorials) {
@@ -72,21 +89,27 @@ define([
             var base = this;
             var search_query = base.$el.find(".search_input").val();
 
-            var all_tutorials = SmartBlocks.Blocks.Tutorials.Data.tutorials.filter(function (tutorial) {
-                return (search_query == "" || tutorial.get("title").indexOf(search_query) !== -1) &&
+            var all_tutorials = _.first(SmartBlocks.Blocks.Tutorials.Data.tutorials.filter(function (tutorial) {
+                return (search_query == "" || tutorial.get("title").toLowerCase().indexOf(search_query.toLowerCase()) !== -1) &&
                     (!base.selected_category ||
                         (tutorial.get('category') &&
                             base.selected_category.get('id')
                                 == tutorial.getCategory().get('id')));
-            });
+            }), 9);
 
 
             base.$el.find(".search_results").html("");
             for (var k in all_tutorials) {
                 var tutorial = all_tutorials[k];
-                var line_thumb = new LineThumb({model: tutorial});
-                base.$el.find(".search_results").append(line_thumb.$el);
-                line_thumb.init();
+                (function (tutorial) {
+                    var line_thumb = new LineThumb({model: tutorial});
+                    base.$el.find(".search_results").append(line_thumb.$el);
+                    line_thumb.init();
+                    line_thumb.onClick(function () {
+                        window.location = "#Tutorials/show/" + tutorial.get('id');
+                    });
+                })(tutorial);
+
             }
         },
         /**
