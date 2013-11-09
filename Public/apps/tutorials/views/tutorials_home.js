@@ -41,6 +41,12 @@ define([
             base.renderFeatured();
 
         },
+        /**
+         * Renders list of featured tutorials.
+         * Uses featured thumbnails.
+         * The click on the featured thumbnail changes the view to the tutorial reader
+         * for the featured tutorial.
+         */
         renderFeatured: function () {
             var base = this;
 
@@ -49,11 +55,16 @@ define([
             }), 5);
             base.$el.find(".featured_tutorials_list").html('');
             for (var k in featured) {
-                var featured_thumb = new FeaturedThumb({ model: featured[k] });
-                var li = $(document.createElement('li'));
-                li.html(featured_thumb.$el);
-                base.$el.find(".featured_tutorials_list").append(li);
-                featured_thumb.init();
+                (function (tutorial) {
+                    var featured_thumb = new FeaturedThumb({ model: tutorial });
+                    var li = $(document.createElement('li'));
+                    li.html(featured_thumb.$el);
+                    base.$el.find(".featured_tutorials_list").append(li);
+                    featured_thumb.init();
+                    featured_thumb.onClick(function () {
+                        window.location = "#Tutorials/show/" + tutorial.get('id');
+                    });
+                })(featured[k]);
             }
         },
         /**

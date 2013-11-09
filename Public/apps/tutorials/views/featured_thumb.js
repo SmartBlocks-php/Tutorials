@@ -27,6 +27,19 @@ define([
         },
         registerEvents: function () {
             var base = this;
+        },
+        /**
+         * Sets the action that shall be executed when the user clicks on the
+         * @param callback The callback to be executed
+         */
+        onClick: function (callback) {
+            var base = this;
+            base.$el.click(function () {
+                if (callback) {
+                    callback();
+                }
+            });
+            base.$el.css('cursor', 'pointer');
         }
     });
 
