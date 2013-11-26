@@ -30,7 +30,8 @@
             "name" : "TutorialsEditor",
             "token" : "TutorialsEditor",
             "block_token": "Tutorials",
-            "entry_point": "launch_tutorials_editor"
+            "entry_point": "launch_tutorials_editor",
+            "restricted_to": "tutorial_writer"
         }
     ],
     "rights": [
