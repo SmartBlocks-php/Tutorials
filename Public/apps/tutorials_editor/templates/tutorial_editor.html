@@ -1,8 +1,19 @@
+<h1>
+    Tutorial edition
+</h1>
+
 <div class="input-group ">
     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-    <input type="text" class="form-control title_input" value="<%= tutorial.get('title') %>" placeholder="Enter a title">
+    <input type="text" class="form-control title_input" value="<%= tutorial.get('title') %>"
+           placeholder="Enter a title">
+</div>
+<div class="link_to_view">
+    <a href="#Tutorials/show/<%= tutorial.get('id') %>"><i class="fa fa-eye"></i> View this tutorial</a>
 </div>
 <div class="status"></div>
+
+
+
 <div class="editor_container">
 
 </div>
@@ -11,7 +22,7 @@
         <div class="form-group">
             <label> Description of the tutorial
             </label>
-            <textarea class="form-control description_input" rows="3"><%= tutorial.get('description'    ) %></textarea>
+            <textarea class="form-control description_input" rows="3"><%= tutorial.get('description' ) %></textarea>
         </div>
 
         <div class="checkbox">
@@ -20,6 +31,11 @@
                 tutorial (admins only)
             </label>
         </div>
+
+        <div class="form-group-container">
+
+        </div>
+        <a href="javascript:void(0);" class="add_field_button"><i class="fa fa-plus-circle"></i> Add a field</a>
     </form>
 </div>
 <button type="submit" class="btn btn-default save_button">Save tutorial</button>

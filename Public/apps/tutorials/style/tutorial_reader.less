@@ -1,7 +1,16 @@
 .tutorial_reader {
-  width: 800px;
+  width: 1000px;
   margin: auto;
   height: 100%;
+
+  .tutorial_title {
+    float: right;
+    margin-top: 10px;
+  }
+
+  .author_info {
+    float: right;
+  }
 
   .actions {
     float: right;
@@ -13,10 +22,11 @@
   }
 
   .tutorial_content {
-    height: 100%;
     padding: 20px;
     background: white;
     margin-top: 20px;
     overflow: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
   }
 }

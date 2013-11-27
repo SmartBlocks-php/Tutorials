@@ -1,7 +1,23 @@
 <div class="tuto_reader_header">
-    <a href="#Tutorials" class="pure-button"><i class="fa fa-chevron-left"></i> Back to Tutorials</a>
+    <h2 class="tutorial_title"><%= tutorial.get('title') %></h2>
+    <a href="#Tutorials"><i class="fa fa-chevron-left"></i> Back to Tutorials</a>
 
 </div>
+
+<div class="author_info">
+    <i class="fa fa-pencil"></i> Created by <%= tutorial.getCreator().get('name') %>
+
+    <% if (tutorial.getCreator().get('id') == SmartBlocks.current_user.get('id')) {%>
+    <div>
+        <a href="#TutorialsEditor/edit/<%= tutorial.get('id') %>"><i class="fa fa-pencil"></i> Edit this tutorial</a>
+    </div>
+    <% } %>
+</div>
+<% if (tutorial.get('short_description')) {  %>
+<div class="short_description">
+    <i class="fa fa-info-circle"></i> <%= tutorial.get('short_description') %>
+</div>
+<% } %>
 <div class="tutorial_content markdown_exported">
     <%= SmartBlocks.Blocks.Markdown.Main.convertToHTML(tutorial.get('content')) %>
 </div>

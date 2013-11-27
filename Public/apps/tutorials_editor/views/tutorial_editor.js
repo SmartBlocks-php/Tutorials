@@ -2,8 +2,9 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!../templates/tutorial_editor.html'
-], function ($, _, Backbone, tutorial_editor_tpl) {
+    'text!../templates/tutorial_editor.html',
+    'text!../templates/custom_field_inputs.html'
+], function ($, _, Backbone, tutorial_editor_tpl, custom_f_tpl) {
     var View = Backbone.View.extend({
         tagName: "div",
         className: "tutorial_editor",
@@ -17,6 +18,16 @@ define([
 
             base.render();
             base.registerEvents();
+        },
+        setUpFields: function () {
+            var base = this;
+            var container = $('.btn btn-default');
+            for (var k in base.model.attributes) {
+                var attribute = base.model.attributes[k];
+                if (k != 'title' && k != 'content' && k != 'url' && k != 'description' && k != 'id' && k !== "creator" &&  k != 'interface_description' &&k != "github_url" && typeof attribute === "string") {
+                    base.addField(k, attribute);
+                }
+            }
         },
         render: function () {
             var base = this;
@@ -40,6 +51,7 @@ define([
             } else {
                 base.$el.find(".status").html('<i class="fa fa-check"></i> Synced');
             }
+            base.setUpFields();
         },
         save: function () {
             var base = this;
@@ -49,6 +61,18 @@ define([
             base.tutorial.set('description', base.$el.find(".description_input").val());
             SmartBlocks.Blocks.Tutorials.Data.tutorials.add(base.tutorial);
             base.$el.find(".status").html('<i class="fa fa-repeat fa-spin"></i> Saving');
+
+            var field_container = base.$el.find('.form-group-container');
+            field_container.find('.form-group').each(function () {
+                var elt = $(this);
+                var key = elt.find('.custom_field_key').val();
+                var value = elt.find('.custom_field_value').val();
+                console.log(key, value);
+                if (key !== undefined && key != "" && value !== undefined) {
+                    base.model.set(key, value);
+                }
+            });
+
             base.tutorial.save({}, {
                 success: function () {
                     base.$el.find(".status").html('<i class="fa fa-check"></i> Synced');
@@ -109,6 +133,44 @@ define([
             base.$el.delegate('input, textarea', 'keyup', function () {
                 base.events.trigger('changed');
             });
+
+            base.$el.delegate('.add_field_button', 'click', function () {
+                base.addField("", "");
+            });
+            base.$el.delegate(".delete_custom_field", "click", function () {
+                var a = $(this);
+                var key = a.attr("data-key");
+                base.model.set(key, undefined);
+                a.parent().remove();
+            });
+
+            base.$el.delegate(".custom_field", "blur", function () {
+                var elt = $(this);
+                var key = elt.find(".custom_field_key").val();
+                if (key !== "") {
+                    elt.find(".custom_field_key").hide();
+                    elt.find(".solid_key").html(key);
+                    elt.find(".solid_key").show();
+                }
+            })
+
+        },
+        addField: function (key, value) {
+            var base = this;
+            var template = _.template(custom_f_tpl, {
+                key: key
+            });
+            var fields = $(template);
+            var container = fields.find(".form-group");
+            container.attr('data-key', key);
+            fields.find('.custom_field_key').val(key);
+            fields.find('.custom_field_value').val(value);
+            console.log(container);
+            base.$el.find('.form-group-container').append(fields);
+            if (key != "") {
+                fields.find(".custom_field_key").hide();
+                fields.find(".solid_key").show();
+            }
         }
     });
 
