@@ -18,6 +18,8 @@
     <i class="fa fa-info-circle"></i> <%= tutorial.get('short_description') %>
 </div>
 <% } %>
-<div class="tutorial_content markdown_exported">
-    <%= SmartBlocks.Blocks.Markdown.Main.convertToHTML(tutorial.get('content')) %>
+<div class="tutorial_content_container">
+    <div class="tutorial_content markdown_exported">
+        <%= SmartBlocks.Blocks.Markdown.Main.convertToHTML(tutorial.get('content')) %>
+    </div>
 </div>
