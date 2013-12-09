@@ -7,16 +7,16 @@
             "collection_name": "Tutorials",
             "plural": "tutorials",
             "ws_origin": "/Tutorials/Tutorials",
-            "model_location": "Tutorials/Models/Tutorial",
-            "collection_location": "Tutorials/Collections/Tutorials"
+            "model_location": "Tutorials/models/Tutorial",
+            "collection_location": "Tutorials/collections/Tutorials"
         },
         {
             "model_name": "Category",
             "collection_name": "Categories",
             "plural": "categories",
             "ws_origin": "/Tutorials/Categories",
-            "model_location": "Tutorials/Models/Category",
-            "collection_location": "Tutorials/Collections/Categories"
+            "model_location": "Tutorials/models/Category",
+            "collection_location": "Tutorials/collections/Categories"
         }
     ],
     "apps": [
